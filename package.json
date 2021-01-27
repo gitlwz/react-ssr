@@ -1,0 +1,32 @@
+{
+    "name": "react-ssr",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "node server.js",
+        "mon": "nodemon server.js",
+        "build": "next build",
+        "start": "next start"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@zeit/next-css": "1.0.1",
+        "antd": "3.13.6",
+        "axios": "0.18.0",
+        "babel-plugin-import": "1.11.0",
+        "ioredis": "4.6.2",
+        "koa": "2.7.0",
+        "koa-router": "7.4.0",
+        "moment": "2.24.0",
+        "next": "8.0.3",
+        "react": "16.8.3",
+        "react-dom": "16.8.3",
+        "react-redux": "6.0.1",
+        "redux": "4.0.1",
+        "redux-devtools-extension": "2.13.8",
+        "redux-thunk": "2.3.0"
+    }
+}
