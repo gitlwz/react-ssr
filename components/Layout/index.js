@@ -1,5 +1,6 @@
 import { useState, useCallback } from "react"
 import { Layout, Icon, Input, Avatar } from "antd"
+import Container from "../Container"
 const { Header, Content, Footer } = Layout
 
 const githubIconStyle = {
@@ -44,7 +45,9 @@ export default ({ children }) => {
             </div>
         </Header>
         <Content>
-            {children}
+            <Container>
+                {children}
+            </Container>
         </Content>
         <Footer style={footerSryle}>
             develp by liuwenzhu
