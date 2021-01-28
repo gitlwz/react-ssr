@@ -1,7 +1,12 @@
+import { useEffect } from "react"
+import axios from "axios"
 import { Button } from "antd"
 import Link from "next/link"
 import Router from "next/router"
 import { connect } from "react-redux"
+import getConfig from "next/config"
+
+const { publicRuntimeConfig } = getConfig()
 
 const events = [
     "routeChangeStart",
@@ -32,6 +37,13 @@ const Index = ({ count, dispatch }) => {
         // }, "/b/2")
         dispatch({ type: "ADD" })
     }
+
+    useEffect(() => {
+        axios.get("/api/user/info")
+            .then((resp) => {
+                console.log(resp)
+            })
+    }, [])
     return <div>
         index
         <Link href="/a?id=1" as="/a/1">
@@ -42,6 +54,8 @@ const Index = ({ count, dispatch }) => {
         </Link>
         <a>a 标签 {count}</a>
         <Button onClick={gotoB}>go b</Button>
+
+        <a href={publicRuntimeConfig.OAUTH_URL}> 去登陆</a>
     </div>
 }
 Index.getInitialProps = async (ctx) => {
