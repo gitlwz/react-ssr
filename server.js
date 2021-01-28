@@ -26,11 +26,6 @@ app.prepare().then(() => {
 
     //配置处理github OAuth登陆
     auth(server)
-    server.use(async (ctx, next) => {
-        console.log("----", ctx.session.user)
-        await next()
-    })
-
     router.get("/a/:id", async (ctx) => {
         const id = ctx.params.id;
         await handle(ctx.req, ctx.res, {
