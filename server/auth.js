@@ -42,4 +42,13 @@ module.exports = (server) => {
             await next()
         }
     })
+
+    server.use(async (ctx, next) => {
+        if (ctx.path === "/logout" && ctx.method === "POST") {
+            ctx.session = null
+            ctx.body = `登出成功`
+        } else {
+            await next()
+        }
+    })
 }
