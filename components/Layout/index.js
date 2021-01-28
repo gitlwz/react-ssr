@@ -1,11 +1,9 @@
 import { useState, useCallback } from "react"
 import { Layout, Icon, Input, Avatar, Tooltip, Dropdown, Menu } from "antd"
 import Container from "../Container"
-import getConfig from "next/config"
 import { connect } from "react-redux"
+import { withRouter } from "next/router"
 import { logout } from "../../store/reducers/user"
-
-const { publicRuntimeConfig } = getConfig()
 const { Header, Content, Footer } = Layout
 
 const githubIconStyle = {
@@ -18,7 +16,7 @@ const githubIconStyle = {
 const footerSryle = {
     textAlign: "center"
 }
-const MyLayout = ({ children, user, logout }) => {
+const MyLayout = ({ children, user, logout, router }) => {
     const [search, setSearch] = useState("")
     const handleSearchChange = useCallback((evnet) => {
         setSearch(evnet.target.value)
@@ -30,7 +28,7 @@ const MyLayout = ({ children, user, logout }) => {
         if (e.key === "logout") {
             logout()
         }
-    }, [])
+    }, [logout])
 
     const userDropDown = (
         <Menu onClick={handleLogout}>
@@ -67,15 +65,13 @@ const MyLayout = ({ children, user, logout }) => {
                                     </Dropdown>
                                 </a>
                             ) : (
-
-                                    <a href={publicRuntimeConfig.OAUTH_URL}>
+                                    <a href={`/prepare-auth?url=${router.asPath}`}>
                                         <Tooltip title="点击进行登陆">
                                             <Avatar size={40} icon="user"></Avatar>
                                         </Tooltip>
                                     </a>
                                 )
                         }
-
                     </div>
                 </div>
             </div>
@@ -123,4 +119,4 @@ export default connect(function mapStateToProps(state) {
     return {
         logout: () => dispatch(logout())
     }
-})(MyLayout)
+})(withRouter(MyLayout))

@@ -26,25 +26,25 @@ app.prepare().then(() => {
 
     //配置处理github OAuth登陆
     auth(server)
-    router.get("/a/:id", async (ctx) => {
-        const id = ctx.params.id;
-        await handle(ctx.req, ctx.res, {
-            pathname: "/a",
-            query: { id }
-        })
-        ctx.respond = false;
-    })
+    // router.get("/a/:id", async (ctx) => {
+    //     const id = ctx.params.id;
+    //     await handle(ctx.req, ctx.res, {
+    //         pathname: "/a",
+    //         query: { id }
+    //     })
+    //     ctx.respond = false;
+    // })
 
-    router.get("/api/user/info", async (ctx) => {
-        const user = ctx.session.userInfo;
-        if (!user) {
-            ctx.status = 401
-            ctx.body = 'Need login'
-        } else {
-            ctx.body = user
-            ctx.set("Content-Type", 'aoolication/json')
-        }
-    })
+    // router.get("/api/user/info", async (ctx) => {
+    //     const user = ctx.session.userInfo;
+    //     if (!user) {
+    //         ctx.status = 401
+    //         ctx.body = 'Need login'
+    //     } else {
+    //         ctx.body = user
+    //         ctx.set("Content-Type", 'aoolication/json')
+    //     }
+    // })
 
     server.use(router.routes())
     server.use(async (ctx, next) => {

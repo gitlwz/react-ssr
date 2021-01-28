@@ -1,7 +1,7 @@
 const axios = require("axios")
 const config = require("../config")
 
-const { client_id, client_secret, request_token_url } = config.github
+const { client_id, client_secret, request_token_url, OAUTH_URL } = config.github
 module.exports = (server) => {
     server.use(async (ctx, next) => {
         if (ctx.path === "/auth") {
@@ -33,7 +33,7 @@ module.exports = (server) => {
                     }
                 })
                 ctx.session.userInfo = userInfoResp.data
-                ctx.redirect("/")
+                ctx.redirect((ctx.session && ctx.session.urlBeforeOAuth) || "/")
             } else {
                 const errorMsg = result.data && result.data.error
                 ctx.body = `request token failed ${errorMsg}`
@@ -47,6 +47,16 @@ module.exports = (server) => {
         if (ctx.path === "/logout" && ctx.method === "POST") {
             ctx.session = null
             ctx.body = `登出成功`
+        } else {
+            await next()
+        }
+    })
+
+    server.use(async (ctx, next) => {
+        if (ctx.path === "/prepare-auth" && ctx.method === "GET") {
+            const url = ctx.params.url
+            ctx.session.urlBeforeOAuth = url
+            ctx.redirect(OAUTH_URL)
         } else {
             await next()
         }
