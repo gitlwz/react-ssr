@@ -3,6 +3,7 @@ const Router = require("koa-router")
 const next = require("next")
 const session = require("koa-session")
 const Redis = require("ioredis");
+const koaBody = require("koa-body")
 const RedisSessionStroe = require("./server/session-store")
 const auth = require("./server/auth")
 const api = require("./server/api")
@@ -19,6 +20,7 @@ app.prepare().then(() => {
     const router = new Router();
 
     server.keys = ['suibian1 suibian2 suibian3']
+    server.use(koaBody())
     const SESSION_CONFIG = {
         key: "jid",
         store: new RedisSessionStroe(redis)

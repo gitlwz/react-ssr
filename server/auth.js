@@ -22,9 +22,11 @@ module.exports = (server) => {
                     Accept: "application/json"
                 }
             })
+            
             if (result.status === 200 && !result.data.error) {
                 ctx.session.githubAuth = result.data;
                 const { access_token, token_type } = result.data
+                console.log(access_token,token_type)
                 const userInfoResp = await axios({
                     method: "GET",
                     url: "https://api.github.com/user",
