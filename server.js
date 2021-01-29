@@ -5,6 +5,7 @@ const session = require("koa-session")
 const Redis = require("ioredis");
 const RedisSessionStroe = require("./server/session-store")
 const auth = require("./server/auth")
+const api = require("./server/api")
 
 const dev = process.env.NODE_ENV !== "production"
 const app = next({ dev })
@@ -26,26 +27,7 @@ app.prepare().then(() => {
 
     //配置处理github OAuth登陆
     auth(server)
-    // router.get("/a/:id", async (ctx) => {
-    //     const id = ctx.params.id;
-    //     await handle(ctx.req, ctx.res, {
-    //         pathname: "/a",
-    //         query: { id }
-    //     })
-    //     ctx.respond = false;
-    // })
-
-    // router.get("/api/user/info", async (ctx) => {
-    //     const user = ctx.session.userInfo;
-    //     if (!user) {
-    //         ctx.status = 401
-    //         ctx.body = 'Need login'
-    //     } else {
-    //         ctx.body = user
-    //         ctx.set("Content-Type", 'aoolication/json')
-    //     }
-    // })
-
+    api(server)
     server.use(router.routes())
     server.use(async (ctx, next) => {
         ctx.req.session = ctx.session
