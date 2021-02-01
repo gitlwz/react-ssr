@@ -9,7 +9,7 @@ class RedissSessionStore {
     }
     //获取redis中存储的session数据
     async get(sid) {
-        console.log("get session", sid)
+        // console.log("get session", sid)
         const id = getRedisSessionId(sid);
         const data = await this.client.get(id);
         if (!data) {
@@ -24,7 +24,7 @@ class RedissSessionStore {
     }
     //存储session数据到redis中
     async set(sid, sess, ttl) {
-        console.log("set session", sid)
+        // console.log("set session", sid)
         const id = getRedisSessionId(sid);
         if (typeof ttl === "number") {
             ttl = Math.ceil(ttl / 1000)
@@ -42,7 +42,7 @@ class RedissSessionStore {
     }
     //从reids当中删除某个session
     async destroy(sid) {
-        console.log("destroy session", sid)
+        // console.log("destroy session", sid)
         const id = getRedisSessionId(sid)
         await this.client.del(id)
     }

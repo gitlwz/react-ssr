@@ -8,7 +8,7 @@
         "dev": "node server.js",
         "mon": "nodemon server.js",
         "build": "next build",
-        "start": "next start"
+        "------start": "next start"
     },
     "author": "",
     "license": "ISC",
@@ -22,6 +22,7 @@
         "koa-body": "4.1.0",
         "koa-router": "7.4.0",
         "koa-session": "5.10.1",
+        "lru-cache": "5.1.1",
         "moment": "2.24.0",
         "next": "8.0.3",
         "react": "16.8.3",
