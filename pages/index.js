@@ -27,7 +27,7 @@ const Index = ({ userRepos, userStaredRepos, user, router }) => {
                 cache.set("userRepos", userRepos)
             }
             if (userStaredRepos) {
-                cache.set("userRepos", userStaredRepos)
+                cache.set("userStaredRepos", userStaredRepos)
             }
         }
     }, [userRepos, userStaredRepos])

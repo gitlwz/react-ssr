@@ -1,6 +1,6 @@
-import { memo } from "react"
+import { memo, isValidElement } from "react"
 import { withRouter } from "next/router"
-import { Row, Col, List } from "antd"
+import { Row, Col, List, Pagination } from "antd"
 import Router from "next/router"
 import Link from "next/link"
 import Repo from "../components/repo"
@@ -38,24 +38,22 @@ const SORT_TYPES = [
         order: "asc"
     }
 ]
+const noop = () => {
+
+}
+const per_page = 20;
 const selectItemStyle = {
     borderLeft: "2px solid #e36209",
     fontWeight: 100
 }
 
-const FilterLink = memo(({ name, query, sort, order, lang }) => {
+const FilterLink = memo(({ name, query, sort, order, lang, page }) => {
     let queryString = `?query=${query}`
-    if (lang) {
-        queryString += `&lang=${lang}`
-    }
-    if (sort) {
-        queryString += `&sort=${sort}&order=${order || "desc"}`
-    }
-    return <Link href={`/search${queryString}`}>
-        <a>
-            {name}
-        </a>
-    </Link>
+    if (lang) queryString += `&lang=${lang}`;
+    if (sort) queryString += `&sort=${sort}&order=${order || "desc"}`;
+    if (page) queryString += `&page=${page}`;
+    queryString += `&per_page=${per_page}`
+    return isValidElement(name) ? name : <Link href={`/search${queryString}`}><a>{name}</a></Link>
 })
 const search = ({ router, repos }) => {
     const { ...querys } = router.query
@@ -109,6 +107,25 @@ const search = ({ router, repos }) => {
                 {
                     repos && Array.isArray(repos.items) && repos.items.map(repo => <Repo key={repo.id} repo={repo}></Repo>)
                 }
+                <div className="pagination">
+                    <Pagination
+                        pageSize={per_page}
+                        current={Number(querys.page) || 1}
+                        total={repos.total_count > 1000 ? 1000 : repos.total_count}
+                        onChange={noop}
+                        itemRender={
+                            (page, type, ol) => {
+                                const p = type === "page" ? page : type === "prev" ? page - 1 : page + 1
+                                const name = type === "page" ? page : ol;
+                                return <FilterLink
+                                    {...querys}
+                                    page={p}
+                                    name={name}
+                                />
+                            }
+                        }
+                    ></Pagination>
+                </div>
             </Col>
         </Row>
         <style jsx>
@@ -121,6 +138,15 @@ const search = ({ router, repos }) => {
                 font-weight: 800;
                 font-size: 16px;
             }  
+            .repos-title{
+                border-bottom:1px solid #eee;
+                font-size:24px;
+                line-height:50px;
+            }
+            .pagination{
+                padding:20px;
+                text-align:center;
+            }
             `}
         </style>
     </div>
@@ -143,7 +169,7 @@ search.getInitialProps = async ({ ctx }) => {
     if (page) {
         queryString += `&page=${page}`
     }
-
+    queryString += `&per_page=${per_page}`
     const result = await api.request({
         url: `/search/repositories${queryString}`
     }, ctx.req, ctx.res)
