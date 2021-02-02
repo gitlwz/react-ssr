@@ -1,7 +1,6 @@
 import { memo, isValidElement, useEffect } from "react"
 import { withRouter } from "next/router"
 import { Row, Col, List, Pagination } from "antd"
-import Router from "next/router"
 import Link from "next/link"
 import Repo from "../components/repo"
 import { cacheArray } from "../lib/repo-basic-cache"
