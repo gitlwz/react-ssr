@@ -1,9 +1,10 @@
-import { memo, isValidElement } from "react"
+import { memo, isValidElement, useEffect } from "react"
 import { withRouter } from "next/router"
 import { Row, Col, List, Pagination } from "antd"
 import Router from "next/router"
 import Link from "next/link"
 import Repo from "../components/repo"
+import { cacheArray } from "../lib/repo-basic-cache"
 const api = require("../lib/api")
 /**
  * 
@@ -46,7 +47,7 @@ const selectItemStyle = {
     borderLeft: "2px solid #e36209",
     fontWeight: 100
 }
-
+const isServer = typeof window === "undefined"
 const FilterLink = memo(({ name, query, sort, order, lang, page }) => {
     let queryString = `?query=${query}`
     if (lang) queryString += `&lang=${lang}`;
@@ -57,6 +58,9 @@ const FilterLink = memo(({ name, query, sort, order, lang, page }) => {
 })
 const search = ({ router, repos }) => {
     const { ...querys } = router.query
+    useEffect(() => {
+        !isServer && cacheArray(repos.items)
+    }, [repos])
     return <div className="root">
         <Row gutter={20}>
             <Col span={6}>

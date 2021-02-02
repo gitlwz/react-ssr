@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import Router, { withRouter } from "next/router"
 import LRU from "lru-cache"
 import Repo from "../components/repo"
-
+import { cacheArray } from "../lib/repo-basic-cache"
 const cache = new LRU({
     maxAge: 1000 * 60 * 10
 })
@@ -31,6 +31,13 @@ const Index = ({ userRepos, userStaredRepos, user, router }) => {
             }
         }
     }, [userRepos, userStaredRepos])
+
+    useEffect(() => {
+        if (!isServer) {
+            cacheArray(userRepos)
+            cacheArray(userStaredRepos)
+        }
+    })
     if (!isLogin) {
         return <div className="root">
             <p>还没有登陆</p>
