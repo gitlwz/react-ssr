@@ -1,8 +1,8 @@
 .root {
-    padding: 20px 0;
+    background: #fefefe;
+    padding: 20px;
 }
 
-.list-header {
-    font-weight: 800;
-    font-size: 16px;
+.actions {
+    text-align: right;
 }

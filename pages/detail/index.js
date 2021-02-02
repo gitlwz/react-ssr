@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic"
-
 import WithRepoBasic from "../../components/with-repo-basic"
-import api from "../../lib/api"
+const api = require("../../lib/api")
 const MdRender = dynamic(
     () => import("../../components/markdownRender"),
     {
