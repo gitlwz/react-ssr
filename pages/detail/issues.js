@@ -3,6 +3,7 @@ import { Avatar, Button } from "antd"
 import dynamic from "next/dynamic"
 import WithRepoBasic from "../../components/with-repo-basic"
 import { getLastUpdated } from "../../lib/utils"
+import SearchUser from "../../components/SearchUser"
 const api = require("../../lib/api")
 const MdRender = dynamic(
     () => import("../../components/markdownRender"),
@@ -100,6 +101,7 @@ const IssueItem = ({ issue }) => {
 const Issues = ({ issues }) => {
     console.log(issues)
     return <div className="root">
+        <SearchUser />
         <div className="issues">
             {
                 issues.map((issue) => <IssueItem issue={issue} key={issue.id} />)
